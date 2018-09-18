@@ -1,0 +1,49 @@
+{
+  "name": "job",
+  "version": "1.0.0",
+  "description": "招工小程序",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "babel src/ --out-dir build/ --retain-lines --source-maps",
+    "start": "rm -fr build/** && npm run compile && node build/app.js",
+    "dev": "nodemon --exec babel-node src/app.js"
+  },
+  "author": "lzyao",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcrypt": "^3.0.0",
+    "bluebird": "^3.5.1",
+    "bytes": "^3.0.0",
+    "config": "^2.0.1",
+    "dotenv": "^6.0.0",
+    "fs": "^0.0.1-security",
+    "jwt-simple": "^0.5.1",
+    "koa": "^2.5.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-cors": "^0.0.16",
+    "koa-logger": "^3.2.0",
+    "koa-response-time": "^2.0.0",
+    "koa-route": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "koa-websocket": "^5.0.1",
+    "lodash": "^4.17.10",
+    "moment": "^2.22.2",
+    "mongoose": "^5.2.7",
+    "mongoose-paginate": "^5.0.3",
+    "mongoose-timestamp": "^0.6.0",
+    "objectid": "^3.2.1",
+    "qr-image": "^3.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-eslint": "^9.0.0",
+    "eslint": "^3.11.1",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.1",
+    "nodemon": "^1.18.3"
+  }
+}
