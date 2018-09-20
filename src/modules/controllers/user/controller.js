@@ -6,17 +6,39 @@ const jwt = require('./jwt');
 /**
  * 根据openID获取接口请求凭证，openID不存在则创建新的用户
  */
-const register = async (ctx) => {
+const register = async ctx => {
   const {util} = ctx.service;
   try {
-    const {name, sex, IDCard, email, address, education, phone, headeImage, openID} = ctx.request.body;
+    const {username, headeImage, openID} = ctx.request.body;
     const User = mongoose.model('User');
     let user = await User.findOne({openID});
     if (!user) {
-      user = await User.create({name, sex, IDCard, email, address, education, phone, headeImage, openID});
+      user = await User.create({username, headeImage, openID});
     }
     const token = await jwt.getToken(user);
     ctx.body = util.returnBody(config.status.SUCCESS, 'success', token);
+  } catch (err) {
+    console.log(err);
+    ctx.body = util.returnBody(config.status.ERROR, 'error => ', err);
+  }
+};
+
+// 更新用户的信息
+const updateUser = async (ctx) => {
+  const {util} = ctx.service;
+  try {
+    const {name, sex, IDCard, email, address, education, phone, openID} = ctx.request.body;
+    const User = mongoose.model('User');
+    const user = await User.findOne({openID});
+    if (!user) { ctx.body = util.returnBody(config.status.PARAMS_ERR, '用户不存在'); return; }
+    await User.update({
+      openID: openID
+    }, {
+      $set: {
+        name, sex, IDCard, email, address, education, phone
+      }
+    });
+    ctx.body = util.returnBody(config.status.SUCCESS, '保存成功');
   } catch (err) {
     console.log(err);
     ctx.body = util.returnBody(config.status.ERROR, 'error => ', err);
@@ -108,6 +130,7 @@ const findUser = async (ctx) => {
 module.exports.register = ({router, unauth}) => {
   unauth.post('/register', register);
   unauth.post('/find/user', findUser);
+  router.post('/update/user', updateUser);
   router.get('/apply/kol', applyKOL);
   router.post('/sing/up', workerSingUp);
 };

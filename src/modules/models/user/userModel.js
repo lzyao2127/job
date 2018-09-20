@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 
 module.exports.mongo = (Schema) => {
   const UserSchema = new Schema({
+    username: String, // 微信名
     name: String, // 真实姓名
     sex: {
       type: String, // 性别
